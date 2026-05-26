@@ -1,0 +1,140 @@
+{
+  "info": {
+    "name": "Bus Ticketing API",
+    "description": "Complete API collection for the Bus Ticketing System. 1 bus, 40 seats. Import this into Postman and set the `baseUrl` variable.",
+    "_postman_id": "bus-ticketing-api-v1",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000", "type": "string" },
+    { "key": "adminSecret", "value": "admin_secret_key_change_this", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/",
+        "description": "Verify the API is running"
+      }
+    },
+    {
+      "name": "Tickets",
+      "item": [
+        {
+          "name": "Get All Tickets",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/tickets",
+            "description": "Returns all 40 tickets with their current status"
+          }
+        },
+        {
+          "name": "Get Open Tickets",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/tickets/open",
+            "description": "Returns only available/open seats"
+          }
+        },
+        {
+          "name": "Get Closed Tickets",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/tickets/closed",
+            "description": "Returns only booked seats with passenger info"
+          }
+        },
+        {
+          "name": "Get Ticket by Seat Number",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/tickets/1",
+            "description": "Get status and details for a specific seat (1–40)"
+          }
+        },
+        {
+          "name": "Get Passenger Details",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/tickets/1/passenger",
+            "description": "Get passenger details for a booked seat. Returns 400 if seat is open."
+          }
+        },
+        {
+          "name": "Book a Ticket",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/tickets/5/book",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Nidhi\",\n  \"lastName\": \"Sharma\",\n  \"email\": \"nidhi@example.com\"\n}"
+            },
+            "description": "Book seat 5. Returns 409 if already booked."
+          }
+        },
+        {
+          "name": "Update Ticket (passenger details)",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/tickets/5",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Nidhi Updated\",\n  \"lastName\": \"Sharma\",\n  \"email\": \"nidhi.new@example.com\"\n}"
+            },
+            "description": "Update passenger details for seat 5. Can also change status to 'open' or 'closed'."
+          }
+        },
+        {
+          "name": "Update Ticket (change status to open)",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/tickets/5",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"open\"\n}"
+            },
+            "description": "Release a seat — clears all passenger data"
+          }
+        },
+        {
+          "name": "Cancel Booking (Delete)",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/tickets/5",
+            "description": "Cancel the booking for seat 5 — sets it back to open"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Get Stats",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/stats",
+            "description": "Returns total/open/closed counts and occupancy rate"
+          }
+        },
+        {
+          "name": "Reset All Tickets",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/admin/reset",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"adminSecret\": \"{{adminSecret}}\"\n}"
+            },
+            "description": "⚠️ Opens all 40 tickets and clears all passenger data. Requires admin secret."
+          }
+        }
+      ]
+    }
+  ]
+}

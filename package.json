@@ -1,0 +1,21 @@
+{
+  "name": "bus-ticketing-backend",
+  "version": "1.0.0",
+  "description": "Bus ticketing system backend API",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "eventemitter3": "^5.0.1",
+    "express": "^4.19.2",
+    "express-validator": "^7.1.0",
+    "helmet": "^7.1.0",
+    "mongoose": "^8.4.0",
+    "morgan": "^1.10.0",
+    "uuid": "^10.0.0"
+  }
+}
